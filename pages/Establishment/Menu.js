@@ -12,7 +12,7 @@ export default function Menu({ route, navigation, acao }) {
   let { items } = route.params;
   let categorieCod = 0;
   return (
-    <NavigationContainer independent={true}>
+    <NavigationContainer independent={true} color="#800">
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -33,7 +33,7 @@ export default function Menu({ route, navigation, acao }) {
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: "tomato",
+          tabBarActiveTintColor: "#800",
           tabBarInactiveTintColor: "gray",
         })}
       >

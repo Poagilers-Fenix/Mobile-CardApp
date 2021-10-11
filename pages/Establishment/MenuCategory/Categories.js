@@ -67,7 +67,15 @@ export default function Categories({ route }) {
   const renderItem = ({ item }) => (
     <TouchableOpacity style={styles.subContainer}>
       <View>
-        <Image style={styles.imgList} source={{ uri: item.Foto }}></Image>
+        <Image
+          style={styles.imgList}
+          source={{
+            uri:
+              item.Foto == null
+                ? "https://raw.githubusercontent.com/Poagilers-Fenix/WebApp-Challenge/main/Imagens/no-image-found.png?token=AOXNWKVBRD3WDDJKASDBZT3BHUBDY"
+                : item.Foto,
+          }}
+        ></Image>
       </View>
       <View style={styles.cardList}>
         <Text
