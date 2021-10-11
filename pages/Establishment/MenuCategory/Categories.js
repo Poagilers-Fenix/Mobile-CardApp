@@ -100,6 +100,13 @@ export default function Categories({ route }) {
           <Text style={styles.titulo}>{items.NomeFantasia}</Text>
         )}
       </View>
+      {listItems.length == 0 && (
+        <View>
+          <Text style={styles.textOnEmpty}>
+            Hmmm!! Nada por aqui. Navegue para outra aba
+          </Text>
+        </View>
+      )}
       <SafeAreaView style={(styles.container, { marginBottom: 140 })}>
         {isLoading && (
           <View style={styles.messageContainer}>
@@ -150,5 +157,12 @@ const styles = StyleSheet.create({
   },
   cardText: {
     marginHorizontal: 0,
+  },
+  textOnEmpty: {
+    marginTop: 30,
+    paddingHorizontal: 10,
+    fontSize: 20,
+    color: "#aaa",
+    textAlign: "center",
   },
 });
