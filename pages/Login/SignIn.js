@@ -57,7 +57,12 @@ export default function SignIn({ navigation }) {
 
       <InputWithIcon title="E-mail" icon="email-outline" onChange={setEmail} />
 
-      <InputWithIcon title="Senha" icon="lock-outline" onChange={setSenha} />
+      <InputWithIcon
+        title="Senha"
+        icon="lock-outline"
+        onChange={setSenha}
+        secureText={true}
+      />
 
       <View style={{ width: 250, marginTop: 30 }}>
         <TouchableOpacity style={styles.buttonContainer} onPress={handleEnter}>

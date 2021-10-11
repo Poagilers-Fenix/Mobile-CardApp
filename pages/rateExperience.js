@@ -35,7 +35,7 @@ export default function rateExperience({ navigation }) {
       <View style={styles.buttonsContainer}>
         <Botao
           titulo="Cancelar"
-          acao={"InitialScreen"}
+          acao={"QRCodeReader"}
           navigation={navigation}
           outlined={true}
           row

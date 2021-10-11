@@ -69,11 +69,17 @@ export default function SignUp({ navigation }) {
 
       <InputWithIcon title="E-mail" icon="email-outline" onChange={setEmail} />
 
-      <InputWithIcon title="Senha" icon="lock-outline" onChange={setSenha} />
+      <InputWithIcon
+        title="Senha"
+        icon="lock-outline"
+        onChange={setSenha}
+        secureText={true}
+      />
       <InputWithIcon
         title="Confirmar senha"
         icon="lock-outline"
         onChange={setConfirmarSenha}
+        secureText={true}
       />
 
       <View style={{ width: 250, marginTop: 30 }}>
