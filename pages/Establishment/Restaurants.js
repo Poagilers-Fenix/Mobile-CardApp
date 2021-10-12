@@ -14,10 +14,11 @@ import BotaoPedido from "../../components/pedido/BotaoPedido";
 import { firebase } from "../../util/config";
 
 export default function Restaurants({ navigation }) {
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const [listRequests, setListRequests] = useState([]);
 
   async function getEstab() {
+    setLoading(true);
     var arrayItems = [];
     var db = firebase.database().ref().child("estab/");
     db.on("child_added", (snapshot) => {
@@ -28,12 +29,11 @@ export default function Restaurants({ navigation }) {
         })
       );
     });
+    setLoading(false);
   }
   useEffect(() => {
     async function fetchData() {
-      setLoading(true);
       await getEstab();
-      setLoading(false);
     }
     fetchData();
   }, []);
@@ -59,7 +59,7 @@ export default function Restaurants({ navigation }) {
       <Text style={styles.titulo}>Restaurantes</Text>
       <SafeAreaView style={styles.container}>
         {isLoading && (
-          <View style={styles.messageContainer}>
+          <View>
             <ActivityIndicator size="large" color="blue" />
           </View>
         )}
@@ -150,5 +150,9 @@ const styles = StyleSheet.create({
   modal: {
     width: "100%",
     justifyContent: "flex-end",
+  },
+  messageContainer: {
+    display: "flex",
+    alignItems: "center",
   },
 });

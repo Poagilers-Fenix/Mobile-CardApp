@@ -2,7 +2,14 @@ import React from "react";
 import { Text, StyleSheet, View, TextInput } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-export default function InputWithIcon({ title, icon, type, onChange, value }) {
+export default function InputWithIcon({
+  title,
+  icon,
+  type,
+  onChange,
+  value,
+  secureText,
+}) {
   return (
     <View style={styles.inputContainer}>
       <Text style={styles.label}>{title}</Text>
@@ -13,6 +20,7 @@ export default function InputWithIcon({ title, icon, type, onChange, value }) {
           keyboardType={type}
           onChangeText={onChange}
           placeholder={value}
+          secureTextEntry={secureText}
         />
       </View>
     </View>
