@@ -21,7 +21,7 @@ export default function rateExperience({ navigation }) {
   const [stars1, setStars1] = useState(0);
   const [stars2, setStars2] = useState(0);
   const [stars3, setStars3] = useState(0);
-  const [selectRestaurant, setSelectRestaurant] = useState(0);
+  const [selectedRestaurant, setSelectedRestaurant] = useState(0);
   const [listRequests, setListRequests] = useState([]);
 
   async function getEstab() {
@@ -36,31 +36,20 @@ export default function rateExperience({ navigation }) {
       );
     });
   }
-  useEffect(() => {
-    async function fetchData() {
-      await getEstab();
-    }
-    fetchData();
-  }, []);
 
   function handleExperience() {
-    if (selectRestaurant == 0) {
+    if (selectedRestaurant == 0) {
       Alert.alert("Erro", "Selecione um restaurante a ser avaliado");
     } else {
       isLoading(true);
-      const media = {
-        rating: Number(((stars1 + stars2 + stars3) / 3).toFixed(1)),
-      };
+      const mediaRating = Number(((stars1 + stars2 + stars3) / 3).toFixed(1));
       const ratingId = firebase.database().ref().child("rating/").push().key;
-      const emailUser = firebase.auth().currentUser.email;
-      const estabId = listRequests.filter((val) => {
-        return val.NomeFantasia == selectRestaurant;
-      });
+      const UserEmail = firebase.auth().currentUser.email;
       records = {
-        ...media,
-        emailUser,
+        rating: mediaRating,
+        UserEmail,
         text,
-        estabId: estabId[0].CodigoEstabelecimento,
+        estabId: selectedRestaurant,
         ratingId,
       };
       let updates = {};
@@ -75,6 +64,13 @@ export default function rateExperience({ navigation }) {
     }
   }
 
+  useEffect(() => {
+    async function fetchData() {
+      await getEstab();
+    }
+    fetchData();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.HeaderText}>Avaliar experiência</Text>
@@ -83,8 +79,8 @@ export default function rateExperience({ navigation }) {
       </Text>
       <Picker
         style={styles.pickerContainer}
-        selectedValue={selectRestaurant}
-        onValueChange={setSelectRestaurant}
+        selectedValue={selectedRestaurant}
+        onValueChange={setSelectedRestaurant}
       >
         <Picker.Item label="Selecione um estabelecimento..." />
         {listRequests.map((element, i) => {
@@ -92,7 +88,7 @@ export default function rateExperience({ navigation }) {
             <Picker.Item
               key={i}
               label={element.NomeFantasia}
-              value={element.NomeFantasia}
+              value={element.CodigoEstabelecimento}
             />
           );
         })}

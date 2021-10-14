@@ -59,10 +59,10 @@ export default function Restaurants({ navigation }) {
     mediaRating.map((val) => {
       media += val;
     });
-    if (media >= 0) {
+    if (media >= 3) {
       return (media / mediaRating.length).toFixed(1);
     } else {
-      return "Novo";
+      return (media = "Novo");
     }
   }
 
@@ -74,9 +74,16 @@ export default function Restaurants({ navigation }) {
       }
     >
       <Text style={styles.cardText}>{item.NomeFantasia}</Text>
-      <View>
-        <Text>{getRatingByEstab(item)}</Text>
+      <View
+        style={{
+          display: "flex",
+          alignItems: "center",
+          flex: 1,
+          marginRight: -20,
+        }}
+      >
         <MaterialCommunityIcons name="star-outline" size={22} color="#B71C1C" />
+        <Text>{getRatingByEstab(item)}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -166,6 +173,7 @@ const styles = StyleSheet.create({
   },
   cardText: {
     marginHorizontal: 25,
+    flex: 4,
   },
   viewSelect: {
     display: "flex",
