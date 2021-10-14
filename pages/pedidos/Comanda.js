@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-import Botao from "../Button";
-import Modal from "../Modal";
+import Botao from "../../components/Button";
+import Modal from "../../components/Modal";
 
 const dados = require("../../API/pedidos.json");
 
