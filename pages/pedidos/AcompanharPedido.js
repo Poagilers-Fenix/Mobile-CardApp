@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-import Modal from "../Modal";
+import Modal from "../../components/Modal";
 
 export default function AcompanharPedido({ navigation }) {
   return (

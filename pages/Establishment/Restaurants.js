@@ -16,8 +16,9 @@ import { firebase } from "../../util/config";
 export default function Restaurants({ navigation }) {
   const [isLoading, setLoading] = useState(false);
   const [listRequests, setListRequests] = useState([]);
+  const [rating, setRatingList] = useState([]);
 
-  async function getEstab() {
+  async function getEstabAndRating() {
     setLoading(true);
     var arrayItems = [];
     var db = firebase.database().ref().child("estab/");
@@ -29,14 +30,41 @@ export default function Restaurants({ navigation }) {
         })
       );
     });
+    var arrayRating = [];
+    var db = firebase.database().ref().child("rating/");
+    db.on("child_added", (snapshot) => {
+      arrayRating.push(snapshot.val());
+      setRatingList(
+        arrayRating.filter((val) => {
+          return val;
+        })
+      );
+    });
     setLoading(false);
   }
   useEffect(() => {
     async function fetchData() {
-      await getEstab();
+      await getEstabAndRating();
     }
     fetchData();
   }, []);
+  function getRatingByEstab(item) {
+    let mediaRating = [];
+    rating.map((val) => {
+      if (val.estabId === item.CodigoEstabelecimento) {
+        mediaRating.push(val.rating);
+      }
+    });
+    let media = 0;
+    mediaRating.map((val) => {
+      media += val;
+    });
+    if (media >= 0) {
+      return (media / mediaRating.length).toFixed(1);
+    } else {
+      return "Novo";
+    }
+  }
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
@@ -46,11 +74,10 @@ export default function Restaurants({ navigation }) {
       }
     >
       <Text style={styles.cardText}>{item.NomeFantasia}</Text>
-      <MaterialCommunityIcons
-        name="food-drumstick-outline"
-        size={22}
-        color="#B71C1C"
-      />
+      <View>
+        <Text>{getRatingByEstab(item)}</Text>
+        <MaterialCommunityIcons name="star-outline" size={22} color="#B71C1C" />
+      </View>
     </TouchableOpacity>
   );
   return (
