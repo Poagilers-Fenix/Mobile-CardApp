@@ -13,12 +13,12 @@ import Modal_ from "../components/Modal";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function Illumination({ navigation }) {
-  const [modoIluminacao, SetModoIluminacao] = useState("foresta");
+  const [modoIluminacao, SetModoIluminacao] = useState("");
   const [msgLog, setMsgLog] = useState("");
 
-  const createUser = () => {
+  const createUser = async () => {
     try {
-      fetch("http://192.168.15.10:1880/luz", {
+      const res = await fetch("https://node-red---cardapp.mybluemix.net/luz", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -28,14 +28,22 @@ export default function Illumination({ navigation }) {
           modoLuz: modoIluminacao,
         }),
       });
-      Alert.alert(
-        "Sucesso",
-        "Modo de iluminação mudado para " + modoIluminacao
-      );
+      if (res.status == 200) {
+        Alert.alert(
+          "Sucesso",
+          "Modo de iluminação mudado para " + modoIluminacao
+        );
+      }
+      if (res.status !== 200) {
+        Alert.alert(
+          "Erro",
+          "Ocorreu um erro ao troca iluminação, tente novamente mais tarde"
+        );
+      }
     } catch (error) {
       Alert.alert(
         "Erro",
-        "Ocorreu um erro ao troca iluminação, tente novamente mais tarde"
+        "Erro interno, tente novamente mais tarde ou contate o suporte"
       );
       console.error(error);
     }
@@ -54,9 +62,10 @@ export default function Illumination({ navigation }) {
           selectedValue={modoIluminacao}
           onValueChange={(itemValue) => SetModoIluminacao(itemValue)}
         >
-          <Picker.Item label="Floresta" value={"foresta"} />
+          <Picker.Item label="Floresta" value={"floresta"} />
           <Picker.Item label="Crepúsculo" value={"crepusculo"} />
           <Picker.Item label="Praia" value={"praia"} />
+          <Picker.Item label="Desligar Iluminação" value={"desligar"} />
         </Picker>
       </View>
       <View>
@@ -71,12 +80,6 @@ export default function Illumination({ navigation }) {
           onPress={async () => await createUser()}
         >
           <Text style={styles.full}>Selecionar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonContainer}
-          onPress={async () => await createUser()}
-        >
-          <Text style={styles.outlined}>Desligar Iluminação</Text>
         </TouchableOpacity>
         <View style={styles.modal}>
           <Modal_ navigation={navigation} />

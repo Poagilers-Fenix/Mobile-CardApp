@@ -23,6 +23,7 @@ export default function rateExperience({ navigation }) {
   const [stars3, setStars3] = useState(0);
   const [selectedRestaurant, setSelectedRestaurant] = useState(0);
   const [listRequests, setListRequests] = useState([]);
+  const [userName, setUserName] = useState([]);
 
   async function getEstab() {
     var arrayItems = [];
@@ -36,18 +37,32 @@ export default function rateExperience({ navigation }) {
       );
     });
   }
-
-  function handleExperience() {
+  async function getClient() {
+    const userEmail = firebase.auth().currentUser.email;
+    console.log(userEmail);
+    var arrayClient = [];
+    var db = firebase.database().ref().child("client/");
+    db.on("child_added", (snapshot) => {
+      arrayClient.push(snapshot.val());
+      setUserName(
+        arrayClient.filter((val) => {
+          return val.email == userEmail;
+        })
+      );
+    });
+  }
+  async function handleExperience() {
     if (selectedRestaurant == 0) {
       Alert.alert("Erro", "Selecione um restaurante a ser avaliado");
     } else {
       isLoading(true);
       const mediaRating = Number(((stars1 + stars2 + stars3) / 3).toFixed(1));
       const ratingId = firebase.database().ref().child("rating/").push().key;
-      const UserEmail = firebase.auth().currentUser.email;
+      const userEmail = firebase.auth().currentUser.email;
       records = {
         rating: mediaRating,
-        UserEmail,
+        userEmail,
+        userName: userName[0].nome,
         text,
         estabId: selectedRestaurant,
         ratingId,
@@ -67,6 +82,7 @@ export default function rateExperience({ navigation }) {
   useEffect(() => {
     async function fetchData() {
       await getEstab();
+      await getClient();
     }
     fetchData();
   }, []);

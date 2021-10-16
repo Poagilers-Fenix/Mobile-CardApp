@@ -29,7 +29,6 @@ export default function SignUp({ navigation }) {
       .auth()
       .createUserWithEmailAndPassword(email, senha)
       .then((response) => {
-        console.log(response.user);
         const usr = {
           nome,
           email,
@@ -67,7 +66,11 @@ export default function SignUp({ navigation }) {
 
       <InputWithIcon title="Nome" icon="account" onChange={setNome} />
 
-      <InputWithIcon title="E-mail" icon="email-outline" onChange={setEmail} />
+      <InputWithIcon
+        title="E-mail"
+        icon="email-outline"
+        onChange={(email) => setEmail(email.toLowerCase())}
+      />
 
       <InputWithIcon
         title="Senha"
