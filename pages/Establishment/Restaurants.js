@@ -42,12 +42,6 @@ export default function Restaurants({ navigation }) {
     });
     setLoading(false);
   }
-  useEffect(() => {
-    async function fetchData() {
-      await getEstabAndRating();
-    }
-    fetchData();
-  }, []);
   function getRatingByEstab(item) {
     let mediaRating = [];
     rating.map((val) => {
@@ -59,13 +53,12 @@ export default function Restaurants({ navigation }) {
     mediaRating.map((val) => {
       media += val;
     });
-    if (media >= 3) {
+    if (mediaRating.length >= 3) {
       return (media / mediaRating.length).toFixed(1);
     } else {
       return (media = "Novo");
     }
   }
-
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.cardList}
@@ -87,6 +80,14 @@ export default function Restaurants({ navigation }) {
       </View>
     </TouchableOpacity>
   );
+
+  useEffect(() => {
+    async function fetchData() {
+      await getEstabAndRating();
+    }
+    fetchData();
+  }, []);
+
   return (
     <View style={styles.container}>
       <BotaoPedido acao={"Comanda"} navigation={navigation} />

@@ -29,7 +29,6 @@ export default function SignUp({ navigation }) {
       .auth()
       .createUserWithEmailAndPassword(email, senha)
       .then((response) => {
-        console.log(response.user);
         const usr = {
           nome,
           email,
