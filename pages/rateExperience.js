@@ -39,6 +39,7 @@ export default function rateExperience({ navigation }) {
   }
   async function getClient() {
     const userEmail = firebase.auth().currentUser.email;
+    console.log(userEmail);
     var arrayClient = [];
     var db = firebase.database().ref().child("client/");
     db.on("child_added", (snapshot) => {

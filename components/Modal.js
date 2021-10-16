@@ -39,6 +39,15 @@ export default function Modal_({ navigation }) {
               style={styles.buttonContainer}
               onPress={() => {
                 setModalVisible(false);
+                navigation.navigate("QRCodeReader");
+              }}
+            >
+              <Text>Menu QRCode</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonContainer}
+              onPress={() => {
+                setModalVisible(false);
                 navigation.navigate("Comanda");
               }}
             >
@@ -81,7 +90,7 @@ export default function Modal_({ navigation }) {
               <Text>Avaliar experiência</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.buttonContainer}
+              style={styles.buttonEditContainer}
               onPress={() => {
                 setModalVisible(false);
                 navigation.navigate("ValidateUser");
@@ -181,6 +190,15 @@ const styles = StyleSheet.create({
   buttonContainer: {
     borderWidth: 1,
     borderColor: "#999",
+    borderRadius: 5,
+    padding: 10,
+    width: 310,
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  buttonEditContainer: {
+    borderWidth: 1,
+    borderColor: "#FFCA2C",
     borderRadius: 5,
     padding: 10,
     width: 310,
