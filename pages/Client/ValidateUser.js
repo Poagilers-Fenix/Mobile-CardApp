@@ -62,9 +62,18 @@ export default function SignIn({ navigation }) {
         Valide sua identidade para editar seu perfil
       </Text>
 
-      <InputWithIcon title="E-mail" icon="email-outline" onChange={setEmail} />
+      <InputWithIcon
+        title="E-mail"
+        icon="email-outline"
+        onChange={(email) => setEmail(email.toLowerCase())}
+      />
 
-      <InputWithIcon title="Senha" icon="lock-outline" onChange={setSenha} />
+      <InputWithIcon
+        title="Senha"
+        icon="lock-outline"
+        secureText={true}
+        onChange={setSenha}
+      />
 
       <View style={{ width: 250, marginTop: 30 }}>
         <TouchableOpacity style={styles.buttonContainer} onPress={handleEnter}>
