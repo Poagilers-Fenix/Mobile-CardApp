@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import ArrowTopIcon from "../../components/ArrowTopIcon";
 
 import Botao from "../../components/Button";
 import Modal from "../../components/Modal";
@@ -17,6 +18,7 @@ const dados = require("../../API/pedidos.json");
 export default function Comanda({ navigation }) {
   return (
     <View style={{ height: "100%" }}>
+      <ArrowTopIcon navigation={navigation}></ArrowTopIcon>
       <Text style={styles.title}>Sua Comanda</Text>
       <View style={styles.item}>
         <Text style={styles.subtitle}>Item</Text>

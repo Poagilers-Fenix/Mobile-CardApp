@@ -8,7 +8,7 @@ import { firebase } from "../../util/config";
 
 const Tab = createBottomTabNavigator();
 
-export default function Menu({ route, navigation, acao }) {
+export default function Menu({ route }) {
   let { items } = route.params;
   let categorieCod = 0;
   return (
@@ -40,7 +40,11 @@ export default function Menu({ route, navigation, acao }) {
         <Tab.Screen
           name="Destaque"
           component={Categories}
-          initialParams={{ items, categorieCod: "semCategoria", Destaque: "S" }}
+          initialParams={{
+            items,
+            categorieCod: "semCategoria",
+            Destaque: "S",
+          }}
           options={({ title: "Destaque" }, { headerShown: false })}
         ></Tab.Screen>
         <Tab.Screen

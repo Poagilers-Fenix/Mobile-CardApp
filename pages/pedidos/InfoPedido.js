@@ -4,12 +4,14 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 import Botao from "../../components/Button";
 import Modal from "../../components/Modal";
+import ArrowTopIcon from "../../components/ArrowTopIcon";
 
 const dados = require("../../API/pedidos.json");
 
 export default function InfoPedido({ navigation }) {
   return (
     <View style={{ height: "100%" }}>
+      <ArrowTopIcon navigation={navigation}></ArrowTopIcon>
       <Text style={styles.title}>Sua Comanda</Text>
       <View style={styles.item}>
         <Text style={[styles.subtitle, { flex: 3 }]}>Item</Text>

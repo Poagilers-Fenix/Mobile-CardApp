@@ -10,9 +10,9 @@ import {
   Alert,
 } from "react-native";
 import Modal_ from "../components/Modal";
-import Botao from "../components/Button";
 import RatingInputWithLabel from "../components/input/RatingInputWithLabel";
 import { firebase } from "../util/config";
+import ArrowTopIcon from "../components/ArrowTopIcon";
 import { Picker } from "@react-native-picker/picker";
 
 export default function rateExperience({ navigation }) {
@@ -39,7 +39,6 @@ export default function rateExperience({ navigation }) {
   }
   async function getClient() {
     const userEmail = firebase.auth().currentUser.email;
-    console.log(userEmail);
     var arrayClient = [];
     var db = firebase.database().ref().child("client/");
     db.on("child_added", (snapshot) => {
@@ -89,6 +88,7 @@ export default function rateExperience({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <ArrowTopIcon navigation={navigation}></ArrowTopIcon>
       <Text style={styles.HeaderText}>Avaliar experiência</Text>
       <Text style={styles.normalText}>
         Nos ajude a melhorar! Avalie sua experiência no restaurante frequentado.
@@ -127,7 +127,7 @@ export default function rateExperience({ navigation }) {
       <TextInput
         multiline={true}
         style={styles.textInput}
-        numberOfLines={8}
+        numberOfLines={5}
         onChangeText={setText}
         value={text}
         placeholder={

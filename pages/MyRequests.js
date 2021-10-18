@@ -11,6 +11,7 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import Modal from "../components/Modal";
 const getAllRequests = require("../API/getAllRequests.json");
+import ArrowTopIcon from "../components/ArrowTopIcon";
 
 export default function TelaCadastro({ navigation }) {
   const [isLoading, setLoading] = useState(true);
@@ -33,6 +34,7 @@ export default function TelaCadastro({ navigation }) {
   );
   return (
     <View style={styles.container}>
+      <ArrowTopIcon navigation={navigation}></ArrowTopIcon>
       <Text style={styles.titulo}>Meus Pedidos</Text>
       <Text style={styles.subtitulo}>
         Veja aqui todos os pedidos que você já fez usando o Cardapp.

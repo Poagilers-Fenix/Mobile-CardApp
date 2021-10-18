@@ -11,12 +11,13 @@ import {
 import Modal from "../../components/Modal";
 import Button from "../../components/Button";
 import ProgressBar from "react-native-progress/Bar";
-
+import ArrowTopIcon from "../../components/ArrowTopIcon";
 const playlist = require("../../API/getPlaylist.json");
 
 export default function MusicaTocando({ navigation }) {
   return (
     <View style={styles.container}>
+      <ArrowTopIcon navigation={navigation}></ArrowTopIcon>
       <Text style={styles.title}>Música</Text>
       <View style={styles.container}>
         <Image style={styles.img} source={{ uri: playlist[0].image }} />

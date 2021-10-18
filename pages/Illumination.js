@@ -11,6 +11,7 @@ import Botao from "../components/Button";
 import { Picker } from "@react-native-picker/picker";
 import Modal_ from "../components/Modal";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import ArrowTopIcon from "../components/ArrowTopIcon";
 
 export default function Illumination({ navigation }) {
   const [modoIluminacao, SetModoIluminacao] = useState("");
@@ -51,6 +52,7 @@ export default function Illumination({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <ArrowTopIcon navigation={navigation}></ArrowTopIcon>
       <Text style={styles.HeaderText}>Mudar iluminação</Text>
       <Text style={styles.normalText}>
         Selecione um modo de iluminação para que seu espaço fique do jeito

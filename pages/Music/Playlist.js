@@ -11,12 +11,13 @@ import {
 import Modal from "../../components/Modal";
 import Button from "../../components/Button";
 import Ionicons from "react-native-vector-icons/Ionicons";
-//<Ionicons name="time-outline"/>
+import ArrowTopIcon from "../../components/ArrowTopIcon";
 const getPlaylist = require("../../API/getPlaylist.json");
 
 export default function Playlist({ navigation }) {
   return (
     <View style={styles.container}>
+      <ArrowTopIcon navigation={navigation}></ArrowTopIcon>
       <Text style={styles.title}>Fila de Reprodução</Text>
       <View>
         <Text style={styles.bold}>Tocando agora</Text>
