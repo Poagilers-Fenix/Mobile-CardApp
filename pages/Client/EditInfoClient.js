@@ -58,7 +58,8 @@ export default function SignUp({ navigation, route }) {
       firebase.auth().currentUser.updateEmail(email);
     }
     updateUser(usr, userCode);
-    navigation.navigate("InitialScreen");
+    Alert.alert("Sucesso", "Você será redirecionado para tela de login");
+    navigation.navigate("SignIn");
   };
 
   const editPasswdClient = () => {

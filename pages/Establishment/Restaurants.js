@@ -8,10 +8,10 @@ import {
   SafeAreaView,
   ActivityIndicator,
 } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Modal from "../../components/Modal";
-import BotaoPedido from "../../components/pedido/BotaoPedido";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { firebase } from "../../util/config";
+import ArrowTopIcon from "../../components/ArrowTopIcon";
 
 export default function Restaurants({ navigation }) {
   const [isLoading, setLoading] = useState(false);
@@ -90,7 +90,7 @@ export default function Restaurants({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <BotaoPedido acao={"Comanda"} navigation={navigation} />
+      <ArrowTopIcon temPedido navigation={navigation}></ArrowTopIcon>
       <Text style={styles.titulo}>Restaurantes</Text>
       <SafeAreaView style={styles.container}>
         {isLoading && (

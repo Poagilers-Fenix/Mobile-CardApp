@@ -10,12 +10,13 @@ import {
 } from "react-native";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
-
+import ArrowTopIcon from "../../components/ArrowTopIcon";
 const getSuggesMusic = require("../../API/getPlaylist.json");
 
 export default function Playlist({ navigation }) {
   return (
     <View style={styles.container}>
+      <ArrowTopIcon navigation={navigation}></ArrowTopIcon>
       <Text style={styles.title}>Sugerir Música</Text>
       <Text style={styles.text}>Digite o nome da música ou do artista...</Text>
       <View style={{ flexDirection: "row" }}>

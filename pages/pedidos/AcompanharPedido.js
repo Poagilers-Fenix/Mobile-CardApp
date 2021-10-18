@@ -7,12 +7,14 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import ArrowTopIcon from "../../components/ArrowTopIcon";
 
 import Modal from "../../components/Modal";
 
 export default function AcompanharPedido({ navigation }) {
   return (
     <View style={{ height: "100%" }}>
+      <ArrowTopIcon navigation={navigation}></ArrowTopIcon>
       <Text style={styles.title}>Acompanhar Pedido</Text>
       <View style={styles.etapa}>
         <View style={styles.circuloAtivado}>
