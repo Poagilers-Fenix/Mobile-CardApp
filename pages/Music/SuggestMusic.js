@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   TouchableOpacity,
   Text,
@@ -7,45 +7,124 @@ import {
   FlatList,
   Image,
   TextInput,
+  ScrollView,
 } from "react-native";
 
+import axios from "axios";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { firebase } from "../../util/config";
+
 import ArrowTopIcon from "../../components/ArrowTopIcon";
+import Modal from "../../components/Modal";
+
 const getSuggesMusic = require("../../API/getPlaylist.json");
 
 export default function Playlist({ navigation }) {
+  const [artistName, setArtistName] = useState("");
+  const [musicName, setMusicName] = useState("");
+  const [playlistMusic, setPlaylistMusic] = useState();
+
+  async function getMusicPlaylist() {
+    const options = {
+      method: "GET",
+      url: "https://unsa-unofficial-spotify-api.p.rapidapi.com/playlist",
+      params: { id: "1c5ChGKijqRigJraLKawxO", start: "0", limit: "8" },
+      headers: {
+        "x-rapidapi-host": "unsa-unofficial-spotify-api.p.rapidapi.com",
+        "x-rapidapi-key": "8c52297b56mshea664a7d6264cb8p16f0bejsndf3573794d9c",
+      },
+    };
+
+    var arrayMusics = [];
+    axios
+      .request(options)
+      .then(function (response) {
+        arrayMusics.push(response.data.Results);
+        setPlaylistMusic(
+          arrayMusics[0].map((val, i) => {
+            return response.data.Results[i].track.album.images[2].url;
+          })
+        );
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
+  async function sugestMusic() {
+    const suggestMusicId = firebase
+      .database()
+      .ref()
+      .child("suggestMusic/")
+      .push().key;
+    const userEmail = firebase.auth().currentUser.email;
+    records = {
+      artistName,
+      musicName,
+      userEmail,
+      suggestMusicId,
+    };
+    let updates = {};
+    updates["/suggestMusic/" + suggestMusicId] = records;
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        navigation.navigate("Playlist");
+      });
+  }
+
+  useEffect(() => {
+    async function fetchData() {
+      await getMusicPlaylist();
+    }
+    fetchData();
+  }, []);
+
   return (
     <View style={styles.container}>
       <ArrowTopIcon navigation={navigation}></ArrowTopIcon>
       <Text style={styles.title}>Sugerir Música</Text>
-      <Text style={styles.text}>Digite o nome da música ou do artista...</Text>
-      <View style={{ flexDirection: "row" }}>
-        <TextInput
-          placeholder="Digite o nome da música ou do artista..."
-          style={styles.input}
-        />
-        <Ionicons
-          name="search-outline"
-          style={{ fontSize: 30, alignSelf: "center", color: "grey" }}
-        />
-      </View>
-      <Text style={styles.text2}>
-        ...ou escolha uma das músicas das playlists abaixo!
+      <Text style={styles.aviso}>
+        <Ionicons name="alert-circle-outline" size={24} />
+        Colabore para o bem-estar de todos. Sua sujestão deverá ser pre-aprovada
+        antes de ser tocada.
       </Text>
+      <Text style={styles.text}>
+        Digite as informções sobre a música abaixo...
+      </Text>
+      <TextInput
+        placeholder="Digite o nome do artista"
+        style={styles.inputCenter}
+        onChangeText={setArtistName}
+      />
+      <TextInput
+        placeholder="Digite o nome da música"
+        style={styles.inputCenter}
+        onChangeText={setMusicName}
+      />
+      <Text style={styles.text}>Ou selecione alguma música...</Text>
       <FlatList
-        data={getSuggesMusic}
-        keyExtractor={(item) => item.id}
+        horizontal={true}
+        data={playlistMusic}
+        keyExtractor={(item) => item}
         renderItem={({ item }) => (
           <View style={styles.viewImgs}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Playlist")}
-              style={{ display: "flex", flexDirection: "row-reverse" }}
-            >
-              <Image style={styles.img} source={{ uri: item.image }} />
+            <TouchableOpacity onPress={() => navigation.navigate("Playlist")}>
+              <Image style={styles.img} source={{ uri: item }} />
             </TouchableOpacity>
           </View>
         )}
       />
+      <View style={styles.modal}>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={async () => await sugestMusic()}
+        >
+          <Text style={styles.btnFooterBar}>Enviar Música</Text>
+        </TouchableOpacity>
+        <Modal navigation={navigation} />
+      </View>
     </View>
   );
 }
@@ -59,14 +138,14 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: "#880000",
     textAlign: "center",
-    marginTop: "10%",
+    marginTop: 10,
     fontWeight: "bold",
   },
   text: {
     fontSize: 20,
     color: "#282C3F",
     textAlign: "center",
-    marginTop: 20,
+    marginTop: 10,
   },
   text2: {
     fontSize: 16,
@@ -82,14 +161,51 @@ const styles = StyleSheet.create({
     width: "80%",
     marginLeft: 20,
   },
+  inputCenter: {
+    height: 40,
+    margin: 12,
+    borderWidth: 0.5,
+    padding: 10,
+    marginHorizontal: 30,
+  },
   viewImgs: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
+    marginHorizontal: 12,
   },
   img: {
-    width: 200,
-    height: 200,
+    width: 120,
+    height: 120,
+  },
+  buttonContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  modal: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
+  aviso: {
+    color: "#800",
+    textAlign: "center",
+    textAlignVertical: "center",
+    marginBottom: 10,
+  },
+  btnFooterBar: {
+    height: 50,
+    color: "white",
+    borderRadius: 8,
+    color: "#fff",
+    backgroundColor: "#800",
+    textAlignVertical: "center",
+    fontSize: 20,
+    width: 240,
+    marginRight: 20,
     marginBottom: 15,
+    paddingHorizontal: 10,
+    textAlign: "center",
   },
 });

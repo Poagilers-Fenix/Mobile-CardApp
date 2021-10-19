@@ -9,7 +9,6 @@ import {
 } from "react-native";
 
 import Modal from "../../components/Modal";
-import Button from "../../components/Button";
 import ProgressBar from "react-native-progress/Bar";
 import ArrowTopIcon from "../../components/ArrowTopIcon";
 const playlist = require("../../API/getPlaylist.json");

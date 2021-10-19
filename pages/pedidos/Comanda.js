@@ -123,6 +123,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   modal: {
+    position: "absolute",
+    bottom: 0,
     width: "100%",
     display: "flex",
     flexDirection: "row",

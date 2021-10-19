@@ -12,6 +12,7 @@ import Modal from "../../components/Modal";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { firebase } from "../../util/config";
 import ArrowTopIcon from "../../components/ArrowTopIcon";
+import { WebView } from "react-native-webview";
 
 export default function Restaurants({ navigation }) {
   const [isLoading, setLoading] = useState(false);
@@ -104,9 +105,6 @@ export default function Restaurants({ navigation }) {
           keyExtractor={(item) => item.CodigoEstabelecimento}
         />
       </SafeAreaView>
-      <View style={styles.modal}>
-        <Modal navigation={navigation} />
-      </View>
     </View>
   );
 }
@@ -182,10 +180,6 @@ const styles = StyleSheet.create({
   },
   select: {
     backgroundColor: "red",
-  },
-  modal: {
-    width: "100%",
-    justifyContent: "flex-end",
   },
   messageContainer: {
     display: "flex",
