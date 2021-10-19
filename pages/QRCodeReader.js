@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 
 import Botao from "../components/Button";
-
+import Global from "../Global/Global";
 export default function TelaCadastro({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
@@ -28,6 +28,7 @@ export default function TelaCadastro({ navigation }) {
     // alert(`Bar code with type ${type} and data ${data}`);
     setData(data);
     setScanned(false);
+    Global.estabInSession = data;
     navigation.navigate({
       name: "Menu",
       params: { items: data },

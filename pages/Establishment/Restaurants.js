@@ -65,7 +65,7 @@ export default function Restaurants({ navigation }) {
     <TouchableOpacity
       style={styles.cardList}
       onPress={() => {
-        Global.estabInSession = item;
+        Global.estabInSession = item.CodigoEstabelecimento;
         navigation.navigate({ name: "Menu", params: { items: item } });
       }}
     >

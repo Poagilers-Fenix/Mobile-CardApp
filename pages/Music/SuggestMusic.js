@@ -69,8 +69,7 @@ export default function Playlist({ navigation }) {
       musicName,
       userEmail,
       suggestMusicId,
-      estabId: Global.estabInSession.CodigoEstabelecimento,
-      estabName: Global.estabInSession.NomeFantasia,
+      estabId: Global.estabInSession,
       approval: false,
     };
     let updates = {};
