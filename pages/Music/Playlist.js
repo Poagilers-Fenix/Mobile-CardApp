@@ -89,12 +89,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: "#880000",
     textAlign: "center",
-    marginTop: "10%",
     fontWeight: "bold",
-  },
-  modal: {
-    width: "100%",
-    justifyContent: "flex-end",
   },
   name: {
     fontSize: 16,
@@ -127,7 +122,6 @@ const styles = StyleSheet.create({
   },
   btnFooterBar: {
     height: 50,
-    color: "white",
     borderRadius: 8,
     color: "#fff",
     backgroundColor: "#800",

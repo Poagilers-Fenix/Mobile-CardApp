@@ -46,9 +46,6 @@ export default function InfoPedido({ navigation }) {
         <Text>Total: </Text>
         <Text>R$ 79.30</Text>
       </View>
-      <View>
-        <Modal navigation={navigation} />
-      </View>
     </View>
   );
 }
@@ -59,9 +56,8 @@ const styles = StyleSheet.create({
     color: "#800",
     fontWeight: "bold",
     textAlign: "center",
-    fontSize: 30,
+    fontSize: 38,
     marginBottom: 20,
-    marginTop: 10,
   },
   subtitle: {
     fontWeight: "bold",

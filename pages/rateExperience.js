@@ -13,7 +13,7 @@ import Modal_ from "../components/Modal";
 import RatingInputWithLabel from "../components/input/RatingInputWithLabel";
 import { firebase } from "../util/config";
 import ArrowTopIcon from "../components/ArrowTopIcon";
-import { Picker } from "@react-native-picker/picker";
+import Global from "../Global/Global";
 
 export default function rateExperience({ navigation }) {
   const [loading, isLoading] = useState(false);
@@ -21,22 +21,8 @@ export default function rateExperience({ navigation }) {
   const [stars1, setStars1] = useState(0);
   const [stars2, setStars2] = useState(0);
   const [stars3, setStars3] = useState(0);
-  const [selectedRestaurant, setSelectedRestaurant] = useState(0);
-  const [listRequests, setListRequests] = useState([]);
   const [userName, setUserName] = useState([]);
 
-  async function getEstab() {
-    var arrayItems = [];
-    var db = firebase.database().ref().child("estab/");
-    db.on("child_added", (snapshot) => {
-      arrayItems.push(snapshot.val());
-      setListRequests(
-        arrayItems.filter((val) => {
-          return val;
-        })
-      );
-    });
-  }
   async function getClient() {
     const userEmail = firebase.auth().currentUser.email;
     var arrayClient = [];
@@ -51,36 +37,31 @@ export default function rateExperience({ navigation }) {
     });
   }
   async function handleExperience() {
-    if (selectedRestaurant == 0) {
-      Alert.alert("Erro", "Selecione um restaurante a ser avaliado");
-    } else {
-      isLoading(true);
-      const mediaRating = Number(((stars1 + stars2 + stars3) / 3).toFixed(1));
-      const ratingId = firebase.database().ref().child("rating/").push().key;
-      const userEmail = firebase.auth().currentUser.email;
-      records = {
-        rating: mediaRating,
-        userEmail,
-        userName: userName[0].nome,
-        text,
-        estabId: selectedRestaurant,
-        ratingId,
-      };
-      let updates = {};
-      updates["/rating/" + ratingId] = records;
-      firebase
-        .database()
-        .ref()
-        .update(updates)
-        .then(() => {
-          navigation.navigate("Restaurants");
-        });
-    }
+    isLoading(true);
+    const mediaRating = Number(((stars1 + stars2 + stars3) / 3).toFixed(1));
+    const ratingId = firebase.database().ref().child("rating/").push().key;
+    const userEmail = firebase.auth().currentUser.email;
+    records = {
+      rating: mediaRating,
+      userEmail,
+      userName: userName[0].nome,
+      text,
+      estabId: Global.estabInSession,
+      ratingId,
+    };
+    let updates = {};
+    updates["/rating/" + ratingId] = records;
+    firebase
+      .database()
+      .ref()
+      .update(updates)
+      .then(() => {
+        navigation.navigate("Restaurants");
+      });
   }
 
   useEffect(() => {
     async function fetchData() {
-      await getEstab();
       await getClient();
     }
     fetchData();
@@ -93,22 +74,6 @@ export default function rateExperience({ navigation }) {
       <Text style={styles.normalText}>
         Nos ajude a melhorar! Avalie sua experiência no restaurante frequentado.
       </Text>
-      <Picker
-        style={styles.pickerContainer}
-        selectedValue={selectedRestaurant}
-        onValueChange={setSelectedRestaurant}
-      >
-        <Picker.Item label="Selecione um estabelecimento..." />
-        {listRequests.map((element, i) => {
-          return (
-            <Picker.Item
-              key={i}
-              label={element.NomeFantasia}
-              value={element.CodigoEstabelecimento}
-            />
-          );
-        })}
-      </Picker>
       <RatingInputWithLabel
         title="Como estava sua refeição?"
         value={stars1}
@@ -127,7 +92,7 @@ export default function rateExperience({ navigation }) {
       <TextInput
         multiline={true}
         style={styles.textInput}
-        numberOfLines={5}
+        numberOfLines={8}
         onChangeText={setText}
         value={text}
         placeholder={

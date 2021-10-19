@@ -46,11 +46,11 @@ export default function Comanda({ navigation }) {
           </View>
         )}
       />
-      <Text style={styles.aviso}>
-        <Ionicons name="alert-circle-outline" size={24} />O pedido não pode ser
-        alterado depois de finalizado.
-      </Text>
       <View style={styles.modal}>
+        <Text style={styles.aviso}>
+          <Ionicons name="alert-circle-outline" size={24} />O pedido não pode
+          ser alterado depois de finalizado.
+        </Text>
         <TouchableOpacity
           outlined={false}
           titulo="Fazer pedido"
@@ -58,7 +58,6 @@ export default function Comanda({ navigation }) {
         >
           <Text style={styles.btnFooterBar}>Fazer pedido</Text>
         </TouchableOpacity>
-        <Modal navigation={navigation} />
       </View>
     </View>
   );
@@ -72,7 +71,7 @@ const styles = StyleSheet.create({
     color: "#800",
     fontWeight: "bold",
     textAlign: "center",
-    fontSize: 30,
+    fontSize: 38,
   },
   item: {
     textAlign: "left",
@@ -110,23 +109,21 @@ const styles = StyleSheet.create({
   },
   btnFooterBar: {
     height: 50,
-    color: "white",
     borderRadius: 8,
     color: "#fff",
     backgroundColor: "#800",
     textAlignVertical: "center",
     fontSize: 20,
     width: 240,
-    marginRight: 20,
     marginBottom: 15,
     paddingHorizontal: 10,
     textAlign: "center",
   },
   modal: {
+    position: "absolute",
+    bottom: 0,
     width: "100%",
     display: "flex",
-    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-end",
   },
 });

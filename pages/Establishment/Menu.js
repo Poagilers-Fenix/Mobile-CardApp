@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Categories from "./MenuCategory/Categories";
+import Modal from "../../components/Modal";
 import { firebase } from "../../util/config";
 
 const Tab = createBottomTabNavigator();
 
-export default function Menu({ route }) {
+export default function Menu({ route, navigation }) {
   let { items } = route.params;
   let categorieCod = 0;
   return (
@@ -72,6 +73,9 @@ export default function Menu({ route }) {
           options={({ title: "Sobremesas" }, { headerShown: false })}
         ></Tab.Screen>
       </Tab.Navigator>
+      <View style={styles.modal}>
+        <Modal navigation={navigation} />
+      </View>
     </NavigationContainer>
   );
 }
@@ -88,5 +92,15 @@ const styles = StyleSheet.create({
     color: "#880000",
     fontWeight: "bold",
     marginVertical: 20,
+  },
+  modal: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    marginBottom: 40,
   },
 });
