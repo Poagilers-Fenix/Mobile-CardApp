@@ -13,6 +13,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { firebase } from "../../util/config";
 import ArrowTopIcon from "../../components/ArrowTopIcon";
 import { WebView } from "react-native-webview";
+import Global from "../../Global/Global";
 
 export default function Restaurants({ navigation }) {
   const [isLoading, setLoading] = useState(false);
@@ -40,8 +41,8 @@ export default function Restaurants({ navigation }) {
           return val;
         })
       );
+      setLoading(false);
     });
-    setLoading(false);
   }
   function getRatingByEstab(item) {
     let mediaRating = [];
@@ -63,9 +64,10 @@ export default function Restaurants({ navigation }) {
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.cardList}
-      onPress={() =>
-        navigation.navigate({ name: "Menu", params: { items: item } })
-      }
+      onPress={() => {
+        Global.estabInSession = item;
+        navigation.navigate({ name: "Menu", params: { items: item } });
+      }}
     >
       <Text style={styles.cardText}>{item.NomeFantasia}</Text>
       <View
@@ -96,14 +98,16 @@ export default function Restaurants({ navigation }) {
       <SafeAreaView style={styles.container}>
         {isLoading && (
           <View>
-            <ActivityIndicator size="large" color="blue" />
+            <ActivityIndicator size="large" color="#800" />
           </View>
         )}
-        <FlatList
-          data={listRequests}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.CodigoEstabelecimento}
-        />
+        {!isLoading && (
+          <FlatList
+            data={listRequests}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.CodigoEstabelecimento}
+          />
+        )}
       </SafeAreaView>
     </View>
   );

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import ProgressBar from "react-native-progress/Bar";
 
 import ModalButton from "./ModalButton";
@@ -105,11 +105,7 @@ export default function Modal_({ navigation }) {
             style={styles.button}
             onPress={() => setModalVisible(false)}
           >
-            <MaterialCommunityIcons
-              name="minus-circle"
-              size={61}
-              color="#800"
-            />
+            <MaterialIcons name="restaurant-menu" size={43} color="#800" />
           </TouchableOpacity>
         </View>
       </Modal>
@@ -117,7 +113,7 @@ export default function Modal_({ navigation }) {
         style={styles.button}
         onPress={() => setModalVisible(true)}
       >
-        <MaterialCommunityIcons name="plus-circle" size={60} color="#800" />
+        <MaterialIcons name="restaurant-menu" size={43} color="#800" />
       </TouchableOpacity>
     </View>
   );

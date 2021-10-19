@@ -88,7 +88,6 @@ export default function AcompanharPedido({ navigation }) {
         >
           <Text style={styles.btnFooterBar}>Informações do pedido</Text>
         </TouchableOpacity>
-        <Modal navigation={navigation} />
       </View>
     </View>
   );
@@ -102,8 +101,7 @@ const styles = StyleSheet.create({
     color: "#800",
     fontWeight: "bold",
     textAlign: "center",
-    fontSize: 30,
-    marginTop: 30,
+    fontSize: 38,
     marginBottom: 20,
   },
   etapa: {
@@ -141,14 +139,12 @@ const styles = StyleSheet.create({
   },
   btnFooterBar: {
     height: 50,
-    color: "white",
     borderRadius: 8,
     color: "#fff",
     backgroundColor: "#800",
     textAlignVertical: "center",
     fontSize: 20,
     width: 240,
-    marginRight: 20,
     marginBottom: 15,
     paddingHorizontal: 10,
     textAlign: "center",
@@ -158,8 +154,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: "100%",
     display: "flex",
-    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-end",
   },
 });

@@ -67,7 +67,6 @@ export default function TelaCadastro({ navigation }) {
         <TouchableOpacity>
           <Text style={styles.btnFooterBar}>Pedir novamente</Text>
         </TouchableOpacity>
-        <Modal navigation={navigation} />
       </View>
     </View>
   );
@@ -160,23 +159,23 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   modal: {
+    position: "absolute",
+    bottom: 0,
     width: "100%",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-end",
+    justifyContent: "center",
   },
   btnFooterBar: {
     height: 50,
-    color: "white",
     borderRadius: 8,
     color: "#fff",
     backgroundColor: "#800",
     textAlignVertical: "center",
+    marginBottom: 15,
     fontSize: 20,
     width: 240,
-    marginRight: 20,
-    marginBottom: 15,
     paddingHorizontal: 10,
     textAlign: "center",
   },
