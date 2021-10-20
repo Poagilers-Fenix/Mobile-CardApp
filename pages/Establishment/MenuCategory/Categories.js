@@ -11,12 +11,14 @@ import {
 } from "react-native";
 
 import { firebase } from "../../../util/config";
+import Global from "../../../Global/Global";
 
 export default function Categories({ route }) {
   let { items } = route.params;
   let { categorieCod } = route.params;
   const [isLoading, setLoading] = useState(true);
   const [listItems, setListItems] = useState([]);
+  const [relatorio, setRelatorio] = useState([]);
   const [estab, setEstab] = useState([]);
 
   async function getItemsById() {
@@ -53,6 +55,32 @@ export default function Categories({ route }) {
     });
   }
 
+  async function updateRelatorio() {
+    let relatorioEspecifico;
+    relatorio.filter((val) => {
+      if (val.CodigoEstabelecimento == Global.estabInSession) {
+        relatorioEspecifico = val;
+      }
+    });
+    relatorioEspecifico.NumeroAcessosItemCardapio += 1;
+    firebase
+      .database()
+      .ref("/Relatorio/" + relatorioEspecifico.CodigoRelatorio)
+      .set(relatorioEspecifico);
+  }
+
+  async function getRelatorios() {
+    var arraylistRelatorios = [];
+    var db = firebase.database().ref().child("Relatorio/");
+    db.on("child_added", (snapshot) => {
+      arraylistRelatorios.push(snapshot.val());
+      setRelatorio(
+        arraylistRelatorios.filter((val) => {
+          return val;
+        })
+      );
+    });
+  }
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
@@ -60,12 +88,16 @@ export default function Categories({ route }) {
         await getEstabById();
       }
       await getItemsById();
+      await getRelatorios();
       setLoading(false);
     }
     fetchData();
   }, []);
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.subContainer}>
+    <TouchableOpacity
+      style={styles.subContainer}
+      onPress={(val) => updateRelatorio()}
+    >
       <View>
         <Image
           style={styles.imgList}
