@@ -19,8 +19,23 @@ export default function Restaurants({ navigation }) {
   const [isLoading, setLoading] = useState(false);
   const [listRequests, setListRequests] = useState([]);
   const [rating, setRatingList] = useState([]);
+  const [relatorio, setRelatorio] = useState([]);
 
-  async function getEstabAndRating() {
+  async function updateRelatorio() {
+    let relatorioEspecifico;
+    relatorio.filter((val) => {
+      if (val.CodigoEstabelecimento == Global.estabInSession) {
+        relatorioEspecifico = val;
+      }
+    });
+    relatorioEspecifico.NumeroAcessosTotal += 1;
+    firebase
+      .database()
+      .ref("/Relatorio/" + relatorioEspecifico.CodigoRelatorio)
+      .set(relatorioEspecifico);
+  }
+
+  async function getEstabRatingAndRelatorio() {
     setLoading(true);
     var arrayItems = [];
     var db = firebase.database().ref().child("estab/");
@@ -32,6 +47,17 @@ export default function Restaurants({ navigation }) {
         })
       );
     });
+    var arraylistRelatorios = [];
+    var db = firebase.database().ref().child("Relatorio/");
+    db.on("child_added", (snapshot) => {
+      arraylistRelatorios.push(snapshot.val());
+      setRelatorio(
+        arraylistRelatorios.filter((val) => {
+          return val;
+        })
+      );
+      setLoading(false);
+    });
     var arrayRating = [];
     var db = firebase.database().ref().child("rating/");
     db.on("child_added", (snapshot) => {
@@ -41,7 +67,6 @@ export default function Restaurants({ navigation }) {
           return val;
         })
       );
-      setLoading(false);
     });
   }
   function getRatingByEstab(item) {
@@ -66,6 +91,7 @@ export default function Restaurants({ navigation }) {
       style={styles.cardList}
       onPress={() => {
         Global.estabInSession = item.CodigoEstabelecimento;
+        updateRelatorio();
         navigation.navigate({ name: "Menu", params: { items: item } });
       }}
     >
@@ -86,7 +112,7 @@ export default function Restaurants({ navigation }) {
 
   useEffect(() => {
     async function fetchData() {
-      await getEstabAndRating();
+      await getEstabRatingAndRelatorio();
     }
     fetchData();
   }, []);

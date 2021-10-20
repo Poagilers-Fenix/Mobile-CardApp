@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -12,10 +12,27 @@ import { Picker } from "@react-native-picker/picker";
 import Modal_ from "../components/Modal";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import ArrowTopIcon from "../components/ArrowTopIcon";
+import { firebase } from "../util/config";
+import Global from "../Global/Global";
 
 export default function Illumination({ navigation }) {
-  const [modoIluminacao, SetModoIluminacao] = useState("");
+  const [modoIluminacao, SetModoIluminacao] = useState("floresta");
+  const [relatorio, setRelatorio] = useState([]);
   const [msgLog, setMsgLog] = useState("");
+
+  async function updateRelatorio() {
+    let relatorioEspecifico;
+    relatorio.filter((val) => {
+      if (val.CodigoEstabelecimento == Global.estabInSession) {
+        relatorioEspecifico = val;
+      }
+    });
+    relatorioEspecifico.NumeroAtivacaoLuz += 1;
+    firebase
+      .database()
+      .ref("/Relatorio/" + relatorioEspecifico.CodigoRelatorio)
+      .set(relatorioEspecifico);
+  }
 
   const createUser = async () => {
     try {
@@ -50,6 +67,24 @@ export default function Illumination({ navigation }) {
     }
   };
 
+  async function getRelatorios() {
+    var arraylistRelatorios = [];
+    var db = firebase.database().ref().child("Relatorio/");
+    db.on("child_added", (snapshot) => {
+      arraylistRelatorios.push(snapshot.val());
+      setRelatorio(
+        arraylistRelatorios.filter((val) => {
+          return val;
+        })
+      );
+    });
+  }
+  useEffect(() => {
+    async function fetchData() {
+      await getRelatorios();
+    }
+    fetchData();
+  }, []);
   return (
     <View style={styles.container}>
       <ArrowTopIcon navigation={navigation}></ArrowTopIcon>
@@ -79,7 +114,10 @@ export default function Illumination({ navigation }) {
       <View style={styles.viewBtn}>
         <TouchableOpacity
           style={styles.buttonContainer}
-          onPress={async () => await createUser()}
+          onPress={async () => {
+            updateRelatorio();
+            await createUser();
+          }}
         >
           <Text style={styles.full}>Selecionar</Text>
         </TouchableOpacity>
