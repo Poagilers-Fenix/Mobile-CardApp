@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Categories from "./MenuCategory/Categories";
-import Modal from "../../components/Modal";
+import Modal from "../../components/ModalItemRestaurant";
 import { firebase } from "../../util/config";
 
 const Tab = createBottomTabNavigator();
