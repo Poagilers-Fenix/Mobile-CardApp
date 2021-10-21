@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
+import { firebase } from "../util/config";
 
 import Botao from "../components/Button";
 import Global from "../Global/Global";
@@ -8,13 +9,29 @@ export default function TelaCadastro({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [data, setData] = useState("");
+  const [estab, setEstab] = useState([]);
+  const [isValidQRCode, setIsValidQRCode] = useState(true);
 
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === "granted");
+      await getEstab();
     })();
   }, []);
+
+  async function getEstab() {
+    var arrayEstab = [];
+    var db = firebase.database().ref().child("estab/");
+    db.on("child_added", (snapshot) => {
+      arrayEstab.push(snapshot.val());
+      setEstab(
+        arrayEstab.filter((val) => {
+          return val;
+        })
+      );
+    });
+  }
 
   if (hasPermission === null) {
     return <Text>Requisitando permissão para ter acesso à camera.</Text>;
@@ -27,12 +44,24 @@ export default function TelaCadastro({ navigation }) {
     setScanned(true);
     // alert(`Bar code with type ${type} and data ${data}`);
     setData(data);
-    setScanned(false);
+
     Global.estabInSession = data;
-    navigation.navigate({
-      name: "Menu",
-      params: { items: data },
+    let isRight;
+    isRight = estab.find((val) => {
+      if (val.CodigoEstabelecimento == data) {
+        return true;
+      }
     });
+    if (isRight) {
+      setIsValidQRCode(isRight);
+      navigation.navigate({
+        name: "Menu",
+        params: { items: data },
+      });
+    } else {
+      setIsValidQRCode(false);
+    }
+    setScanned(false);
   };
 
   return (
@@ -47,7 +76,12 @@ export default function TelaCadastro({ navigation }) {
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         />
       </View>
-
+      {!isValidQRCode && (
+        <Text style={{ color: "#f00", textAlign: "center" }}>
+          QRCode inválido, tente novamente ou contate o estabelecimento para
+          mais informações
+        </Text>
+      )}
       <View style={{ width: 250, marginTop: 30 }}>
         <Botao
           titulo="Ver Cardápios"
