@@ -33,7 +33,7 @@ export default function Playlist({ navigation }) {
     const options = {
       method: "GET",
       url: "https://unsa-unofficial-spotify-api.p.rapidapi.com/playlist",
-      params: { id: "37i9dQZEVXbMXbN3EUUhlg", start: "0", limit: "10" },
+      params: { id: "15guqXWuMURGSR7AMl2Cjz", start: "0", limit: "30" },
       headers: {
         "x-rapidapi-host": "unsa-unofficial-spotify-api.p.rapidapi.com",
         "x-rapidapi-key": "8c52297b56mshea664a7d6264cb8p16f0bejsndf3573794d9c",
@@ -138,7 +138,7 @@ export default function Playlist({ navigation }) {
           horizontal={true}
           data={playlistMusic}
           style={{ marginTop: 23 }}
-          keyExtractor={(item) => item.track.album.images[0].url}
+          keyExtractor={(item, index) => String(index)}
           renderItem={({ item }) => (
             <View style={styles.viewImgs}>
               <TouchableOpacity

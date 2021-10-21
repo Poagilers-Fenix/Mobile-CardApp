@@ -56,7 +56,11 @@ export default function rateExperience({ navigation }) {
       .ref()
       .update(updates)
       .then(() => {
-        navigation.navigate("Restaurants");
+        isLoading(false);
+        navigation.navigate({
+          name: "Menu",
+          params: { items: Global.estabInSession },
+        });
       });
   }
 
