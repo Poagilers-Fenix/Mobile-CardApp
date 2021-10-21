@@ -58,33 +58,40 @@ export default function Playlist({ navigation }) {
       });
   }
   async function sugestMusic() {
-    const suggestMusicId = firebase
-      .database()
-      .ref()
-      .child("suggestMusic/")
-      .push().key;
-    const userEmail = firebase.auth().currentUser.email;
-    records = {
-      artistName,
-      musicName,
-      userEmail,
-      suggestMusicId,
-      estabId: Global.estabInSession,
-      approval: false,
-    };
-    let updates = {};
-    updates["/suggestMusic/" + suggestMusicId] = records;
-    firebase
-      .database()
-      .ref()
-      .update(updates)
-      .then(() => {
-        Alert.alert(
-          "Solicitação enviada",
-          "Sua música será avaliada e poderá ser tocada em breve"
-        );
-        navigation.navigate("Playlist");
-      });
+    if (artistName == "" && musicName == "") {
+      Alert.alert(
+        "Ops",
+        "Preencha os campos acima para enviar sua solicitação"
+      );
+    } else {
+      const suggestMusicId = firebase
+        .database()
+        .ref()
+        .child("suggestMusic/")
+        .push().key;
+      const userEmail = firebase.auth().currentUser.email;
+      records = {
+        artistName,
+        musicName,
+        userEmail,
+        suggestMusicId,
+        estabId: Global.estabInSession,
+        approval: false,
+      };
+      let updates = {};
+      updates["/suggestMusic/" + suggestMusicId] = records;
+      firebase
+        .database()
+        .ref()
+        .update(updates)
+        .then(() => {
+          Alert.alert(
+            "Solicitação enviada",
+            "Sua música será avaliada e poderá ser tocada em breve"
+          );
+          navigation.navigate("Playlist");
+        });
+    }
   }
 
   useEffect(() => {
