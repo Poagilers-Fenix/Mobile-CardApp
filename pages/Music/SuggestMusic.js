@@ -110,7 +110,7 @@ export default function Playlist({ navigation }) {
       </Text>
       <Text style={styles.aviso}>
         <Ionicons name="alert-circle-outline" size={24} />
-        Colabore para o bem-estar de todos. Sua sujestão deverá ser pre-aprovada
+        Colabore para o bem-estar de todos. Sua sugestão deverá ser pre-aprovada
         antes de ser tocada.
       </Text>
       <TextInput

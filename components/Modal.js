@@ -69,7 +69,7 @@ export default function Modal_({ navigation }) {
                 navigation.navigate("SeeMusic");
               }}
             >
-              <Text>Que música está tocando</Text>
+              <Text>Música</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonContainer}

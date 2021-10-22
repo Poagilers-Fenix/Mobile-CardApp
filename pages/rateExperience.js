@@ -7,7 +7,6 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
-  Alert,
 } from "react-native";
 import Modal_ from "../components/Modal";
 import RatingInputWithLabel from "../components/input/RatingInputWithLabel";
