@@ -55,7 +55,7 @@ export default function Illumination({ navigation }) {
       if (res.status !== 200) {
         Alert.alert(
           "Erro",
-          "Ocorreu um erro ao troca iluminação, tente novamente mais tarde"
+          "Ocorreu um erro ao trocar a iluminação, tente novamente mais tarde"
         );
       }
     } catch (error) {
@@ -90,7 +90,7 @@ export default function Illumination({ navigation }) {
       <ArrowTopIcon navigation={navigation}></ArrowTopIcon>
       <Text style={styles.HeaderText}>Mudar iluminação</Text>
       <Text style={styles.normalText}>
-        Selecione um modo de iluminação para que seu espaço fique do jeito
+        Selecione um modo de iluminação para que sua mesa fique do jeito
         desejado
       </Text>
       <View style={styles.viewPicker}>
@@ -108,7 +108,7 @@ export default function Illumination({ navigation }) {
       <View>
         <Text style={styles.aviso}>
           <Ionicons name="alert-circle-outline" size={24} />
-          As luzes da mesa variam de intencidade conforme modo selecionado
+          As luzes da mesa variam de intensidade conforme modo selecionado
         </Text>
       </View>
       <View style={styles.viewBtn}>

@@ -34,7 +34,7 @@ export default function TelaCadastro({ navigation }) {
   }
 
   if (hasPermission === null) {
-    return <Text>Requisitando permissão para ter acesso à camera.</Text>;
+    return <Text>Requisitando permissão para ter acesso à câmera.</Text>;
   }
   if (hasPermission === false) {
     return <Text>A permissão de acesso à câmera foi negada</Text>;

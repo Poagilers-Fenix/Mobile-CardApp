@@ -135,7 +135,7 @@ export default function Categories({ route }) {
       {listItems.length == 0 && (
         <View>
           <Text style={styles.textOnEmpty}>
-            Hmmm!! Nada por aqui. Navegue para outra aba
+            Hmmm!! Nada por aqui. Navegue para outra aba.
           </Text>
         </View>
       )}
